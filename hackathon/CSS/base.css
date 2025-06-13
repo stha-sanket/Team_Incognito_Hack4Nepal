@@ -1,0 +1,69 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+
+  .navbar {
+    background: linear-gradient(to right, #add8e6, #9a66b1);  
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 40px;
+  }
+
+  .navbar-left,
+  .navbar-right {
+    display: flex;
+    gap: 20px;
+  }
+
+  .navbar a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 8px;
+    transition: 0.3s;
+  }
+
+  .navbar a:hover,
+  .navbar a:active {
+    text-decoration: underline;
+  }
+
+    .logo {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 24px;
+        font-weight: bold;
+        color: white;
+      }
+
+/* Background image section */
+.hero-section {
+    background-image: url("../images/background.png"); 
+    background-size: contain;
+    background-size: 100% auto; 
+    background-repeat: no-repeat;
+    background-position: center -100px;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+
+  .hero-text {
+    position: absolute;
+    top: 50%;
+    left: 5%;         /* adjust this for how far from the left you want */
+    transform: translateY(-50%);
+    max-width: 40%;
+    color: white;
+  }
+  
+  .hero-text h1 {
+    margin: 0;
+    font-size: 50px;
+  }
+  
+  .hero-text p {
+    font-size: 18px;
+  }
