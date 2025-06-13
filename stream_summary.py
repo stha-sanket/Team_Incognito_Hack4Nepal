@@ -1,9 +1,15 @@
 import streamlit as st
 from summary_code import summarize_pdf
 import google.generativeai as genai
+from dotenv import load_dotenv
+import os
+
+
+load_dotenv()  # loads variables from .env file
+api_key = os.getenv("GOOGLE_API_KEY")
 
 # Configure Gemini API
-genai.configure(api_key="AIzaSyDJ-yCECLpPPSMUL4Ua6a8gqEmSeMYzcfA")
+genai.configure(api_key=api_key)
 model = genai.GenerativeModel("gemini-2.0-flash")
 
 # Set dark theme page config
