@@ -4,7 +4,10 @@
 
 An AI-powered document classification and information extraction system using Google Gemini Pro Vision API. Process scanned documents and get structured JSON output with just a few lines of code.
 
+<<<<<<< HEAD
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+=======
+>>>>>>> a832e884ce107ad0899e55ad6f3ff5f0d36570ca
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![GitHub stars](https://img.shields.io/github/stars/your-username/gemini-doc-classifier?style=social)](https://github.com/your-username/gemini-doc-classifier)
 
@@ -28,4 +31,8 @@ An AI-powered document classification and information extraction system using Go
 ```bash
 git clone https://github.com/your-username/gemini_doc_classifier.git
 cd gemini_doc_classifier
+<<<<<<< HEAD
 pip install -r requirements.txt
+=======
+pip install -r requirements.txt
+>>>>>>> a832e884ce107ad0899e55ad6f3ff5f0d36570ca
