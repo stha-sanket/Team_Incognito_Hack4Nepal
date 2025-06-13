@@ -19,7 +19,7 @@ Your task is to extract the information and return it in valid JSON format only,
 Structure your response using the following keys:
     {
         "country": "",
-        "document_type": "",
+        "type": "",
         "citizenship_certificate_number": "",
         "full_name": "",
         "sex": "",
