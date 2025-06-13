@@ -1,0 +1,29 @@
+{
+    "contents": {
+        "country": "नेपाल सरकार",
+        "document_type": "pan",
+        "citizenship_certificate_number": null,
+        "full_name": null,
+        "sex": null,
+        "date_of_birth_ad": {
+            "year": null,
+            "month": "",
+            "day": null
+        },
+        "birth_place": {
+            "district": "",
+            "municipality": "",
+            "ward_no": null
+        },
+        "permanent_address": {
+            "district": "",
+            "municipality": "",
+            "ward_no": null
+        },
+        "issuing_officer_name": "विनोद कुमार कार्की",
+        "issuing_officer_title": "अधिकृतः",
+        "issuing_date_bs": "२०७६.०५.१७"
+    },
+    "image_path": "../gemini_doc_classifier/docs\\pan.jpg",
+    "created_at": "2025-06-13T13:57:57.394433"
+}

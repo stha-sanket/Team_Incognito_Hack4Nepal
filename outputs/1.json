@@ -1,0 +1,29 @@
+{
+    "contents": {
+        "country": "Nepal",
+        "document_type": "citizenship",
+        "citizenship_certificate_number": "31-01-76-03422",
+        "full_name": "SUBASH KHATRI",
+        "sex": "Male",
+        "date_of_birth_ad": {
+            "year": 2001,
+            "month": "APR",
+            "day": 14
+        },
+        "birth_place": {
+            "district": "Makawanpur",
+            "municipality": "Thaha",
+            "ward_no": 7
+        },
+        "permanent_address": {
+            "district": "Makawanpur",
+            "municipality": "Thaha",
+            "ward_no": 7
+        },
+        "issuing_officer_name": "देब चन्द्र गौला",
+        "issuing_officer_title": "प्रशासकीय अधिकृत",
+        "issuing_date_bs": "२०७६-०३.१६"
+    },
+    "image_path": "../gemini_doc_classifier/docs\\1.jpg",
+    "created_at": "2025-06-13T13:57:51.773193"
+}
