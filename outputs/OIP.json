@@ -1,0 +1,29 @@
+{
+    "contents": {
+        "country": "नेपाल",
+        "type": "citizenship",
+        "citizenship_certificate_number": "",
+        "full_name": "",
+        "sex": "",
+        "date_of_birth_ad": {
+            "year": null,
+            "month": "",
+            "day": null
+        },
+        "birth_place": {
+            "district": "",
+            "municipality": "",
+            "ward_no": null
+        },
+        "permanent_address": {
+            "district": "",
+            "municipality": "",
+            "ward_no": null
+        },
+        "issuing_officer_name": "",
+        "issuing_officer_title": "",
+        "issuing_date_bs": ""
+    },
+    "image_path": "../gemini_doc_classifier/docs\\OIP.jpg",
+    "created_at": "2025-06-13T14:54:45.216026"
+}
