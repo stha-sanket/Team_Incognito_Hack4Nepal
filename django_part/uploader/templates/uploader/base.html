@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Governance Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .glass-card {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #9333ea;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-link.active::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 glass-card">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="{% url 'landing' %}" class="flex items-center space-x-2">
+                        <i class="fas fa-landmark text-2xl text-purple-400"></i>
+                        <span class="text-xl font-bold">E-Gov Portal</span>
+                    </a>
+                </div>
+
+                <!-- Navigation Links -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="{% url 'landing' %}" class="nav-link px-3 py-2 rounded-md text-sm font-medium {% if request.resolver_match.url_name == 'landing' %}active text-purple-400{% else %}text-gray-300 hover:text-white{% endif %}">
+                            Home
+                        </a>
+                        <a href="{% url 'about' %}" class="nav-link px-3 py-2 rounded-md text-sm font-medium {% if request.resolver_match.url_name == 'about' %}active text-purple-400{% else %}text-gray-300 hover:text-white{% endif %}">
+                            About Us
+                        </a>
+                        <a href="{% url 'chatbot' %}" class="nav-link px-3 py-2 rounded-md text-sm font-medium {% if request.resolver_match.url_name == 'chatbot' %}active text-purple-400{% else %}text-gray-300 hover:text-white{% endif %}">
+                            Chatbot
+                        </a>
+                        <a href="{% url 'extractor' %}" class="nav-link px-3 py-2 rounded-md text-sm font-medium {% if request.resolver_match.url_name == 'extractor' %}active text-purple-400{% else %}text-gray-300 hover:text-white{% endif %}">
+                            Extractor
+                        </a>
+                        <a href="{% url 'contact' %}" class="nav-link px-3 py-2 rounded-md text-sm font-medium {% if request.resolver_match.url_name == 'contact' %}active text-purple-400{% else %}text-gray-300 hover:text-white{% endif %}">
+                            Contact Us
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button type="button" class="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div class="mobile-menu hidden md:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="{% url 'landing' %}" class="block px-3 py-2 rounded-md text-base font-medium {% if request.resolver_match.url_name == 'landing' %}text-purple-400{% else %}text-gray-300 hover:text-white{% endif %}">
+                    Home
+                </a>
+                <a href="{% url 'about' %}" class="block px-3 py-2 rounded-md text-base font-medium {% if request.resolver_match.url_name == 'about' %}text-purple-400{% else %}text-gray-300 hover:text-white{% endif %}">
+                    About Us
+                </a>
+                <a href="{% url 'chatbot' %}" class="block px-3 py-2 rounded-md text-base font-medium {% if request.resolver_match.url_name == 'chatbot' %}text-purple-400{% else %}text-gray-300 hover:text-white{% endif %}">
+                    Chatbot
+                </a>
+                <a href="{% url 'extractor' %}" class="block px-3 py-2 rounded-md text-base font-medium {% if request.resolver_match.url_name == 'extractor' %}text-purple-400{% else %}text-gray-300 hover:text-white{% endif %}">
+                    Extractor
+                </a>
+                <a href="{% url 'contact' %}" class="block px-3 py-2 rounded-md text-base font-medium {% if request.resolver_match.url_name == 'contact' %}text-purple-400{% else %}text-gray-300 hover:text-white{% endif %}">
+                    Contact Us
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass-card mt-12">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4">About Us</h3>
+                    <p class="text-gray-300">
+                        Empowering citizens through innovative e-governance solutions.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="{% url 'landing' %}" class="text-gray-300 hover:text-white">Home</a></li>
+                        <li><a href="{% url 'about' %}" class="text-gray-300 hover:text-white">About Us</a></li>
+                        <li><a href="{% url 'contact' %}" class="text-gray-300 hover:text-white">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4">Connect With Us</h3>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-white">
+                            <i class="fab fa-facebook text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-white">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-white">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-700 text-center text-gray-300">
+                <p>&copy; 2024 E-Governance Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Menu JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.querySelector('.mobile-menu-button');
+            const mobileMenu = document.querySelector('.mobile-menu');
+
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+        });
+    </script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html> 

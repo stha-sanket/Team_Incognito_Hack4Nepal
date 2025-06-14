@@ -1,0 +1,120 @@
+{% extends 'uploader/base.html' %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto">
+        <div class="glass-card p-8 rounded-2xl">
+            <h1 class="text-4xl font-bold text-white mb-8 text-center">AI Chatbot</h1>
+            
+            <!-- Chat Interface -->
+            <div class="glass-card p-6 rounded-xl h-[600px] flex flex-col">
+                <!-- Chat Messages -->
+                <div id="chat-messages" class="flex-1 overflow-y-auto mb-4 space-y-4">
+                    <!-- Welcome Message -->
+                    <div class="flex items-start space-x-3">
+                        <div class="flex-shrink-0">
+                            <div class="w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center">
+                                <i class="fas fa-robot text-white"></i>
+                            </div>
+                        </div>
+                        <div class="glass-card p-4 rounded-lg max-w-[80%]">
+                            <p class="text-white">Hello! I'm your AI assistant. How can I help you today?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Input -->
+                <div class="flex space-x-4">
+                    <input type="text" id="message-input" 
+                           class="flex-1 rounded-lg bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-purple-500"
+                           placeholder="Type your message here...">
+                    <button id="send-button" 
+                            class="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Features Section -->
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass-card p-6 rounded-xl text-center">
+                    <i class="fas fa-bolt text-3xl text-purple-400 mb-4"></i>
+                    <h3 class="text-lg font-semibold text-white mb-2">Quick Responses</h3>
+                    <p class="text-gray-200">Get instant answers to your questions</p>
+                </div>
+                <div class="glass-card p-6 rounded-xl text-center">
+                    <i class="fas fa-brain text-3xl text-purple-400 mb-4"></i>
+                    <h3 class="text-lg font-semibold text-white mb-2">Smart AI</h3>
+                    <p class="text-gray-200">Powered by advanced language models</p>
+                </div>
+                <div class="glass-card p-6 rounded-xl text-center">
+                    <i class="fas fa-shield-alt text-3xl text-purple-400 mb-4"></i>
+                    <h3 class="text-lg font-semibold text-white mb-2">Secure Chat</h3>
+                    <p class="text-gray-200">Your conversations are private and secure</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const chatMessages = document.getElementById('chat-messages');
+    const messageInput = document.getElementById('message-input');
+    const sendButton = document.getElementById('send-button');
+
+    function addMessage(message, isUser = false) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'flex items-start space-x-3 ' + (isUser ? 'justify-end' : '');
+        
+        const icon = isUser ? 'user' : 'robot';
+        const bgColor = isUser ? 'bg-purple-600' : 'bg-purple-500';
+        
+        messageDiv.innerHTML = `
+            ${!isUser ? `
+            <div class="flex-shrink-0">
+                <div class="w-8 h-8 rounded-full ${bgColor} flex items-center justify-center">
+                    <i class="fas fa-${icon} text-white"></i>
+                </div>
+            </div>
+            ` : ''}
+            <div class="glass-card p-4 rounded-lg max-w-[80%]">
+                <p class="text-white">${message}</p>
+            </div>
+            ${isUser ? `
+            <div class="flex-shrink-0">
+                <div class="w-8 h-8 rounded-full ${bgColor} flex items-center justify-center">
+                    <i class="fas fa-${icon} text-white"></i>
+                </div>
+            </div>
+            ` : ''}
+        `;
+        
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function sendMessage() {
+        const message = messageInput.value.trim();
+        if (message) {
+            addMessage(message, true);
+            messageInput.value = '';
+            
+            // Simulate AI response (replace with actual API call)
+            setTimeout(() => {
+                addMessage("I'm processing your request. This is a placeholder response.");
+            }, 1000);
+        }
+    }
+
+    sendButton.addEventListener('click', sendMessage);
+    messageInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+});
+</script>
+{% endblock %}
+{% endblock %} 

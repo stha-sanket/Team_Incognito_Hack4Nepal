@@ -1,0 +1,250 @@
+{% extends 'uploader/base.html' %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <!-- Upload Section -->
+        <div class="lg:col-span-5">
+            <div class="glass-card rounded-2xl p-6 hover-scale">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <i class="fas fa-upload mr-3 text-blue-400"></i>
+                    Upload Document
+                </h2>
+                
+                <form id="uploadForm" method="post" enctype="multipart/form-data" class="space-y-6">
+                    {% csrf_token %}
+                    
+                    <!-- Drag & Drop Zone -->
+                    <div class="glass-card border-2 border-dashed border-blue-400/30 rounded-xl p-8 text-center hover:border-blue-400/50 transition-colors duration-200"
+                         id="dropZone">
+                        <div class="space-y-4">
+                            <div class="w-20 h-20 mx-auto rounded-full bg-blue-500/20 flex items-center justify-center">
+                                <i class="fas fa-cloud-upload-alt text-3xl text-blue-400"></i>
+                            </div>
+                            <div class="text-gray-300">
+                                <p class="font-medium">Drop your document here</p>
+                                <p class="text-sm text-gray-400">or</p>
+                            </div>
+                            <label class="inline-flex items-center px-6 py-3 bg-blue-500 text-white rounded-lg cursor-pointer hover:bg-blue-600 transition-colors duration-200">
+                                <i class="fas fa-upload mr-2"></i>
+                                Browse Files
+                                <input type="file" name="image" accept="image/*" id="fileInput" class="hidden">
+                            </label>
+                            <p class="text-xs text-gray-400">JPG, PNG (max 5MB)</p>
+                        </div>
+                    </div>
+
+                    <!-- Preview Section -->
+                    <div id="preview" class="hidden">
+                        <div class="relative rounded-xl overflow-hidden glass-card">
+                            <img id="previewImage" class="w-full h-64 object-contain" src="" alt="Preview">
+                            <button type="button" id="removeImage" class="absolute top-2 right-2 bg-red-500/80 text-white p-2 rounded-full hover:bg-red-600 transition-colors duration-200">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Upload Button -->
+                    <button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white py-3 px-4 rounded-lg hover:from-blue-600 hover:to-purple-600 transition-all duration-200 flex items-center justify-center font-medium">
+                        <i class="fas fa-magic mr-2"></i>
+                        Analyze Document
+                    </button>
+                </form>
+
+                <!-- Loading Indicator -->
+                <div id="loading" class="hidden mt-6">
+                    <div class="glass-card rounded-xl p-4">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-3">
+                                <div class="animate-spin rounded-full h-8 w-8 border-4 border-blue-500 border-t-transparent"></div>
+                                <div>
+                                    <p class="text-gray-300 font-medium">Processing Document</p>
+                                    <p id="processingFileName" class="text-sm text-gray-400"></p>
+                                </div>
+                            </div>
+                            <div class="text-sm text-blue-400">
+                                <i class="fas fa-clock mr-1"></i>
+                                <span id="processingTime">0s</span>
+                            </div>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-2">
+                            <div id="processingProgress" class="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analysis Results -->
+                <div id="analysisResults" class="hidden mt-6">
+                    <h3 class="text-lg font-semibold mb-3 flex items-center">
+                        <i class="fas fa-chart-bar mr-2 text-blue-400"></i>
+                        Analysis Results
+                    </h3>
+                    <div id="analysisContent" class="glass-card p-4 rounded-lg text-gray-300 whitespace-pre-line"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Uploads Section -->
+        <div class="lg:col-span-7">
+            <div class="glass-card rounded-2xl p-6">
+                <h2 class="text-2xl font-bold mb-6 flex items-center">
+                    <i class="fas fa-history mr-3 text-purple-400"></i>
+                    Recent Analysis
+                </h2>
+                
+                {% if images %}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {% for image in images %}
+                    <div class="glass-card rounded-xl overflow-hidden hover-scale">
+                        <div class="relative">
+                            <img src="{{ image.image.url }}" alt="Uploaded document" class="w-full h-48 object-cover">
+                            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                                <p class="text-white text-sm">{{ image.uploaded_at|date:"M d, Y H:i" }}</p>
+                            </div>
+                        </div>
+                        {% if image.analysis_result %}
+                        <div class="p-4">
+                            <h4 class="font-semibold text-blue-400 mb-2">Analysis:</h4>
+                            <p class="text-sm text-gray-300 whitespace-pre-line">{{ image.analysis_result }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center py-12">
+                    <div class="w-20 h-20 mx-auto rounded-full bg-purple-500/20 flex items-center justify-center mb-4">
+                        <i class="fas fa-folder-open text-3xl text-purple-400"></i>
+                    </div>
+                    <p class="text-gray-400">No documents analyzed yet</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // File Input and Preview Handling
+    const fileInput = document.getElementById('fileInput');
+    const dropZone = document.getElementById('dropZone');
+    const preview = document.getElementById('preview');
+    const previewImage = document.getElementById('previewImage');
+    const removeImage = document.getElementById('removeImage');
+    const uploadForm = document.getElementById('uploadForm');
+    const loading = document.getElementById('loading');
+    const analysisResults = document.getElementById('analysisResults');
+    const analysisContent = document.getElementById('analysisContent');
+
+    // Drag and Drop Handling
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, highlight, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, unhighlight, false);
+    });
+
+    function highlight(e) {
+        dropZone.classList.add('border-blue-400');
+    }
+
+    function unhighlight(e) {
+        dropZone.classList.remove('border-blue-400');
+    }
+
+    dropZone.addEventListener('drop', handleDrop, false);
+
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        handleFiles(files);
+    }
+
+    fileInput.addEventListener('change', function(e) {
+        handleFiles(this.files);
+    });
+
+    function handleFiles(files) {
+        if (files.length > 0) {
+            const file = files[0];
+            if (file.size > 5 * 1024 * 1024) {
+                alert('File size exceeds 5MB limit');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImage.src = e.target.result;
+                preview.classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    removeImage.addEventListener('click', function() {
+        fileInput.value = '';
+        preview.classList.add('hidden');
+        previewImage.src = '';
+    });
+
+    uploadForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const file = fileInput.files[0];
+        if (!file) {
+            alert('Please select a file first');
+            return;
+        }
+
+        // Show loading state
+        loading.classList.remove('hidden');
+        analysisResults.classList.add('hidden');
+        
+        const formData = new FormData();
+        formData.append('image', file);
+        
+        // Add processed image data
+        const processedImageData = {
+            data: previewImage.src,
+            mime_type: file.type
+        };
+        formData.append('processed_image', JSON.stringify(processedImageData));
+
+        try {
+            const response = await fetch('{% url "extractor" %}', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                }
+            });
+
+            const data = await response.json();
+            
+            if (data.success) {
+                analysisContent.textContent = data.analysis;
+                analysisResults.classList.remove('hidden');
+            } else {
+                alert(data.message || 'Error processing document');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error processing document');
+        } finally {
+            loading.classList.add('hidden');
+        }
+    });
+</script>
+{% endblock %} 

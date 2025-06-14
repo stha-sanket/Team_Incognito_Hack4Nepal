@@ -1,0 +1,208 @@
+{% extends 'uploader/base.html' %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900">
+    <div class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div class="glass-card p-8 rounded-2xl">
+            <h1 class="text-4xl font-bold text-white mb-8 text-center">Document Extractor</h1>
+            
+            <!-- Upload Section -->
+            <div class="glass-card p-6 rounded-xl mb-8">
+                <div class="text-center mb-6">
+                    <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-purple-500/20 flex items-center justify-center">
+                        <i class="fas fa-file-upload text-3xl text-purple-400"></i>
+                    </div>
+                    <h2 class="text-2xl font-semibold text-white mb-2">Upload Your Document</h2>
+                    <p class="text-gray-300">Supported formats: JPG, PNG, PDF (Max size: 5MB)</p>
+                </div>
+
+                <form id="upload-form" class="space-y-6">
+                    <div class="flex items-center justify-center w-full">
+                        <label for="file-upload" class="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-lg cursor-pointer glass-card hover:bg-gray-800/50">
+                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                <i class="fas fa-cloud-upload-alt text-4xl text-purple-400 mb-3"></i>
+                                <p class="mb-2 text-sm text-gray-300"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                                <p class="text-xs text-gray-400">JPG, PNG or PDF (MAX. 5MB)</p>
+                            </div>
+                            <input id="file-upload" type="file" class="hidden" accept=".jpg,.jpeg,.png,.pdf" />
+                        </label>
+                    </div>
+
+                    <!-- Preview Section -->
+                    <div id="preview-container" class="hidden">
+                        <div class="glass-card p-4 rounded-lg">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-white">Preview</h3>
+                                <button type="button" id="remove-file" class="text-gray-400 hover:text-white">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div id="image-preview" class="max-h-64 overflow-hidden rounded-lg"></div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-purple-600 text-white py-3 px-4 rounded-lg hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors">
+                        <i class="fas fa-magic mr-2"></i>Process Document
+                    </button>
+                </form>
+            </div>
+
+            <!-- Results Section -->
+            <div id="results-section" class="hidden">
+                <div class="glass-card p-6 rounded-xl">
+                    <h2 class="text-2xl font-semibold text-white mb-4">Extraction Results</h2>
+                    <div id="loading-indicator" class="hidden">
+                        <div class="flex items-center justify-center space-x-2">
+                            <div class="w-4 h-4 bg-purple-400 rounded-full animate-bounce"></div>
+                            <div class="w-4 h-4 bg-purple-400 rounded-full animate-bounce delay-100"></div>
+                            <div class="w-4 h-4 bg-purple-400 rounded-full animate-bounce delay-200"></div>
+                        </div>
+                        <p class="text-center text-gray-300 mt-4">Processing your document...</p>
+                    </div>
+                    <div id="results-content" class="space-y-4">
+                        <!-- Results will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features Section -->
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass-card p-6 rounded-xl text-center">
+                    <i class="fas fa-bolt text-3xl text-purple-400 mb-4"></i>
+                    <h3 class="text-lg font-semibold text-white mb-2">Fast Processing</h3>
+                    <p class="text-gray-300">Get results in seconds</p>
+                </div>
+                <div class="glass-card p-6 rounded-xl text-center">
+                    <i class="fas fa-brain text-3xl text-purple-400 mb-4"></i>
+                    <h3 class="text-lg font-semibold text-white mb-2">AI-Powered</h3>
+                    <p class="text-gray-300">Advanced extraction technology</p>
+                </div>
+                <div class="glass-card p-6 rounded-xl text-center">
+                    <i class="fas fa-shield-alt text-3xl text-purple-400 mb-4"></i>
+                    <h3 class="text-lg font-semibold text-white mb-2">Secure</h3>
+                    <p class="text-gray-300">Your data is protected</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('upload-form');
+    const fileInput = document.getElementById('file-upload');
+    const previewContainer = document.getElementById('preview-container');
+    const imagePreview = document.getElementById('image-preview');
+    const removeFileButton = document.getElementById('remove-file');
+    const resultsSection = document.getElementById('results-section');
+    const loadingIndicator = document.getElementById('loading-indicator');
+    const resultsContent = document.getElementById('results-content');
+
+    // Handle file selection
+    fileInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                alert('File size exceeds 5MB limit');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                if (file.type.startsWith('image/')) {
+                    imagePreview.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-contain" alt="Preview">`;
+                } else {
+                    imagePreview.innerHTML = `<div class="flex items-center justify-center h-32">
+                        <i class="fas fa-file-pdf text-4xl text-purple-400"></i>
+                    </div>`;
+                }
+                previewContainer.classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Handle file removal
+    removeFileButton.addEventListener('click', function() {
+        fileInput.value = '';
+        previewContainer.classList.add('hidden');
+        imagePreview.innerHTML = '';
+    });
+
+    // Handle form submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const file = fileInput.files[0];
+        if (!file) {
+            alert('Please select a file first');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        // Show loading state
+        resultsSection.classList.remove('hidden');
+        loadingIndicator.classList.remove('hidden');
+        resultsContent.innerHTML = '';
+
+        // Send the file to the server
+        fetch('{% url "extractor" %}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            loadingIndicator.classList.add('hidden');
+            if (data.error) {
+                resultsContent.innerHTML = `
+                    <div class="text-red-400">
+                        <i class="fas fa-exclamation-circle mr-2"></i>
+                        ${data.error}
+                    </div>
+                `;
+            } else {
+                resultsContent.innerHTML = `
+                    <div class="space-y-4">
+                        <div class="glass-card p-4 rounded-lg">
+                            <h3 class="text-lg font-semibold text-white mb-2">Extracted Information</h3>
+                            <p class="text-gray-300">${data.description}</p>
+                        </div>
+                    </div>
+                `;
+            }
+        })
+        .catch(error => {
+            loadingIndicator.classList.add('hidden');
+            resultsContent.innerHTML = `
+                <div class="text-red-400">
+                    <i class="fas fa-exclamation-circle mr-2"></i>
+                    An error occurred while processing your document. Please try again.
+                </div>
+            `;
+        });
+    });
+
+    // Helper function to get CSRF token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+});
+</script>
+{% endblock %} 

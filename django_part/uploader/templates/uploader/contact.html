@@ -1,0 +1,87 @@
+{% extends 'uploader/base.html' %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto">
+        <div class="glass-card p-8 rounded-2xl">
+            <h1 class="text-4xl font-bold text-white mb-8 text-center">Contact Us</h1>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Contact Information -->
+                <div class="space-y-6">
+                    <div class="glass-card p-6 rounded-xl">
+                        <h2 class="text-2xl font-semibold text-white mb-4">Get in Touch</h2>
+                        <div class="space-y-4">
+                            <div class="flex items-center space-x-4">
+                                <i class="fas fa-map-marker-alt text-2xl text-purple-400"></i>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-white">Address</h3>
+                                    <p class="text-gray-200">Kathmandu, Nepal</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <i class="fas fa-envelope text-2xl text-purple-400"></i>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-white">Email</h3>
+                                    <p class="text-gray-200">contact@egovportal.com</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <i class="fas fa-phone text-2xl text-purple-400"></i>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-white">Phone</h3>
+                                    <p class="text-gray-200">+977 1234567890</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-xl">
+                        <h2 class="text-2xl font-semibold text-white mb-4">Follow Us</h2>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-2xl text-purple-400 hover:text-purple-300 transition-colors">
+                                <i class="fab fa-facebook"></i>
+                            </a>
+                            <a href="#" class="text-2xl text-purple-400 hover:text-purple-300 transition-colors">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="text-2xl text-purple-400 hover:text-purple-300 transition-colors">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="#" class="text-2xl text-purple-400 hover:text-purple-300 transition-colors">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="glass-card p-6 rounded-xl">
+                    <h2 class="text-2xl font-semibold text-white mb-4">Send us a Message</h2>
+                    <form class="space-y-4">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-200">Name</label>
+                            <input type="text" id="name" name="name" class="mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-white shadow-sm focus:border-purple-500 focus:ring-purple-500">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-200">Email</label>
+                            <input type="email" id="email" name="email" class="mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-white shadow-sm focus:border-purple-500 focus:ring-purple-500">
+                        </div>
+                        <div>
+                            <label for="subject" class="block text-sm font-medium text-gray-200">Subject</label>
+                            <input type="text" id="subject" name="subject" class="mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-white shadow-sm focus:border-purple-500 focus:ring-purple-500">
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-200">Message</label>
+                            <textarea id="message" name="message" rows="4" class="mt-1 block w-full rounded-md bg-gray-800 border-gray-700 text-white shadow-sm focus:border-purple-500 focus:ring-purple-500"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-colors">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
