@@ -18,14 +18,13 @@ CHROMA_DIR = "chroma_db"
 def extract_text_from_pdfs(folder=DATA_FOLDER):
     all_text = ""
     for file in os.listdir(folder):
-        if file.endswith(".pdf"):
+        if file.endswith(".txt"):
             path = os.path.join(folder, file)
-            reader = PdfReader(path)
-            for page in reader.pages:
-                text = page.extract_text()
-                if text:
-                    all_text += text + "\n"
+            with open(path, 'r', encoding='utf-8') as f:
+                text = f.read()
+                all_text += text + "\n"
     return all_text
+
 
 # Step 2: Split text
 def split_into_chunks(text, chunk_size=4000, chunk_overlap=400):
