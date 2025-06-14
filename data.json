@@ -1,0 +1,121 @@
+[
+    {
+      "type": "citizenship",
+      "full_name": "Johnathan Doe",
+      "sex": "Male",
+      "birth_year": "1990",
+      "birth_day": "15",
+      "birth_month": "March"
+    },
+    {
+      "type": "Pan",
+      "full_name": "Alicia Keys",
+      "sex": "Female",
+      "birth_year": "1981",
+      "birth_day": "25",
+      "birth_month": "January"
+    },
+    {
+      "type": "citizenship",
+      "full_name": "Jane Smith",
+      "sex": "Female",
+      "birth_year": "1985",
+      "birth_day": "22",
+      "birth_month": "October"
+    },
+    {
+      "type": "citizenship",
+      "full_name": "Will B. Ignored",
+      "sex": "Other",
+      "birth_year": "2000",
+      "birth_day": "1",
+      "birth_month": "January"
+    },
+    {
+      "type": "pan",
+      "full_name": "Chris Martin",
+      "sex": "male",
+      "birth_year": "1977",
+      "birth_day": "2",
+      "birth_month": "March"
+    },
+    {
+      "type": "citizenship",
+      "full_name": "Alex Ray",
+      "sex": "Non-binary",
+      "birth_year": "2001",
+      "birth_day": "5",
+      "birth_month": "July"
+    },
+    {
+      "type": "pan",
+      "full_name": "Priyanka Chopra",
+      "sex": "Female",
+      "birth_year": "1982",
+      "birth_day": "18",
+      "birth_month": "July"
+    },
+    {
+      "type": "citizenship",
+      "full_name": "Keanu Reeves",
+      "sex": "Male",
+      "birth_year": "1964",
+      "birth_day": "2",
+      "birth_month": "September"
+    },
+    {
+      "type": "citizenship",
+      "full_name": "Skippy Jones",
+      "sex": "Male",
+      "birth_year": "1995",
+      "birth_day": "10",
+      "birth_month": "October"
+    },
+    {
+      "type": "pan",
+      "full_name": "Kenji Tanaka",
+      "sex": "male",
+      "birth_year": "1988",
+      "birth_day": "29",
+      "birth_month": "April"
+    },
+    {
+      "type": "citizenship",
+      "full_name": "Maria Garcia",
+      "sex": "female",
+      "birth_year": "2003",
+      "birth_day": "12",
+      "birth_month": "June"
+    },
+    {
+      "type": "citizenship",
+      "full_name": "Another Skip",
+      "sex": "other",
+      "birth_year": "1970",
+      "birth_day": "3",
+      "birth_month": "March"
+    },
+    {
+      "full_name": "No Type Record",
+      "sex": "Female",
+      "birth_year": "1999",
+      "birth_day": "1",
+      "birth_month": "January"
+    },
+    {
+      "type": "pan",
+      "full_name": "Fatima Al-Fassi",
+      "sex": "Female",
+      "birth_year": "1991",
+      "birth_day": "21",
+      "birth_month": "November"
+    },
+    {
+      "type": "citizenship",
+      "full_name": "David Chen",
+      "sex": "Male",
+      "birth_year": "1980",
+      "birth_day": "7",
+      "birth_month": "August"
+    }
+  ]
