@@ -1,0 +1,272 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Home - D-Ask{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section text-center py-5" data-aos="fade-up">
+    <h1 class="display-3 fw-bold mb-4">Welcome to <span class="text-primary">D-Ask</span></h1>
+    <p class="lead mb-4">Your one-stop solution for digital document services</p>
+    <div class="d-flex justify-content-center gap-3 mb-5">
+        {% if user.is_authenticated %}
+        <a href="{% url 'dashboard' %}" class="btn btn-primary btn-lg ripple-surface">
+            <i class="fas fa-tachometer-alt me-2"></i>Go to Dashboard
+        </a>
+        {% else %}
+        <a href="{% url 'register' %}" class="btn btn-primary btn-lg ripple-surface">
+            <i class="fas fa-user-plus me-2"></i>Get Started
+        </a>
+        <a href="{% url 'login' %}" class="btn btn-outline-primary btn-lg">
+            <i class="fas fa-sign-in-alt me-2"></i>Login
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Services Section -->
+<div class="row g-4 mb-5">
+    <div class="col-md-4" data-aos="fade-up">
+        <div class="card h-100 hover-shadow">
+            <div class="card-body text-center p-4">
+                <div class="rounded-circle bg-primary bg-opacity-10 p-3 d-inline-block mb-3">
+                    <i class="fas fa-id-card fa-3x text-primary"></i>
+                </div>
+                <h3 class="h4 mb-3">Citizenship</h3>
+                <p class="text-muted mb-4">Apply for citizenship documents with our streamlined process. Fast, secure, and reliable.</p>
+                <a href="{% url 'citizenship' %}" class="btn btn-outline-primary rounded-pill">
+                    <i class="fas fa-arrow-right me-2"></i>Learn More
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+        <div class="card h-100 hover-shadow">
+            <div class="card-body text-center p-4">
+                <div class="rounded-circle bg-success bg-opacity-10 p-3 d-inline-block mb-3">
+                    <i class="fas fa-file-invoice fa-3x text-success"></i>
+                </div>
+                <h3 class="h4 mb-3">PAN Card</h3>
+                <p class="text-muted mb-4">Get your PAN card application processed quickly and efficiently with our service.</p>
+                <a href="{% url 'pan' %}" class="btn btn-outline-success rounded-pill">
+                    <i class="fas fa-arrow-right me-2"></i>Learn More
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+        <div class="card h-100 hover-shadow">
+            <div class="card-body text-center p-4">
+                <div class="rounded-circle bg-info bg-opacity-10 p-3 d-inline-block mb-3">
+                    <i class="fas fa-headset fa-3x text-info"></i>
+                </div>
+                <h3 class="h4 mb-3">Support</h3>
+                <p class="text-muted mb-4">Need help? Our support team is available 24/7 to assist you with any queries.</p>
+                <a href="{% url 'contact' %}" class="btn btn-outline-info rounded-pill">
+                    <i class="fas fa-arrow-right me-2"></i>Contact Us
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="row align-items-center mb-5">
+    <div class="col-md-6" data-aos="fade-right">
+        <div class="card border-0 bg-primary bg-opacity-10">
+            <div class="card-body p-4">
+                <h3 class="mb-4">Why Choose Us?</h3>
+                <div class="d-flex align-items-center mb-3">
+                    <div class="rounded-circle bg-white p-2 me-3">
+                        <i class="fas fa-check-circle text-primary"></i>
+                    </div>
+                    <div>Fast and efficient processing</div>
+                </div>
+                <div class="d-flex align-items-center mb-3">
+                    <div class="rounded-circle bg-white p-2 me-3">
+                        <i class="fas fa-shield-alt text-primary"></i>
+                    </div>
+                    <div>Secure document handling</div>
+                </div>
+                <div class="d-flex align-items-center mb-3">
+                    <div class="rounded-circle bg-white p-2 me-3">
+                        <i class="fas fa-clock text-primary"></i>
+                    </div>
+                    <div>24/7 customer support</div>
+                </div>
+                <div class="d-flex align-items-center">
+                    <div class="rounded-circle bg-white p-2 me-3">
+                        <i class="fas fa-chart-line text-primary"></i>
+                    </div>
+                    <div>Easy tracking system</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6" data-aos="fade-left">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+                <h3 class="mb-4">Our Process</h3>
+                <div class="timeline">
+                    <div class="timeline-item d-flex align-items-center mb-4">
+                        <div class="rounded-circle bg-primary text-white p-3 me-3">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-1">Create Account</h5>
+                            <p class="text-muted mb-0">Sign up and verify your email</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item d-flex align-items-center mb-4">
+                        <div class="rounded-circle bg-primary text-white p-3 me-3">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-1">Fill Application</h5>
+                            <p class="text-muted mb-0">Complete the required forms</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item d-flex align-items-center mb-4">
+                        <div class="rounded-circle bg-primary text-white p-3 me-3">
+                            <i class="fas fa-upload"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-1">Submit Documents</h5>
+                            <p class="text-muted mb-0">Upload necessary documents</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item d-flex align-items-center">
+                        <div class="rounded-circle bg-primary text-white p-3 me-3">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-1">Get Approval</h5>
+                            <p class="text-muted mb-0">Receive your documents</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Stats Section -->
+<div class="row text-center mb-5" data-aos="fade-up">
+    <div class="col-md-4 mb-4 mb-md-0">
+        <div class="card border-0 bg-primary bg-opacity-10 py-4">
+            <div class="card-body">
+                <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                <h2 class="counter mb-2">10,000+</h2>
+                <p class="text-muted mb-0">Happy Customers</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4 mb-md-0">
+        <div class="card border-0 bg-success bg-opacity-10 py-4">
+            <div class="card-body">
+                <i class="fas fa-file-alt fa-3x text-success mb-3"></i>
+                <h2 class="counter mb-2">50,000+</h2>
+                <p class="text-muted mb-0">Documents Processed</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 bg-info bg-opacity-10 py-4">
+            <div class="card-body">
+                <i class="fas fa-star fa-3x text-info mb-3"></i>
+                <h2 class="counter mb-2">99%</h2>
+                <p class="text-muted mb-0">Customer Satisfaction</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.hero-section {
+    background: linear-gradient(135deg, rgba(33, 150, 243, 0.1) 0%, rgba(33, 150, 243, 0.05) 100%);
+    border-radius: 20px;
+    margin-bottom: 4rem;
+}
+
+.hover-shadow {
+    transition: all 0.3s ease;
+}
+
+.hover-shadow:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1) !important;
+}
+
+.timeline {
+    position: relative;
+    padding: 1rem 0;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 1.5rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: rgba(33, 150, 243, 0.2);
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 0.5rem;
+}
+
+.counter {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.ripple-surface {
+    position: relative;
+    overflow: hidden;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Counter Animation
+function animateCounter(element) {
+    const target = parseInt(element.textContent.replace(/[^0-9]/g, ''));
+    let current = 0;
+    const increment = target / 50;
+    const duration = 2000;
+    const interval = duration / 50;
+    
+    const counter = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+            element.textContent = element.textContent.includes('+') ? 
+                Math.floor(target).toLocaleString() + '+' : 
+                Math.floor(target).toLocaleString() + '%';
+            clearInterval(counter);
+        } else {
+            element.textContent = Math.floor(current).toLocaleString() + 
+                (element.textContent.includes('+') ? '+' : '%');
+        }
+    }, interval);
+}
+
+// Animate counters when they come into view
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            animateCounter(entry.target);
+            observer.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.counter').forEach(counter => {
+    observer.observe(counter);
+});
+</script>
+{% endblock %} 

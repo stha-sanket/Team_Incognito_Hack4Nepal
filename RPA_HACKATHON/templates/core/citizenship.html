@@ -1,0 +1,531 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Citizenship Application - D-Ask{% endblock %}
+
+{% block extra_css %}
+<style>
+.form-wizard {
+    position: relative;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.wizard-steps {
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #eee;
+}
+
+.wizard-step {
+    flex: 1;
+    text-align: center;
+    position: relative;
+}
+
+.wizard-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 25px;
+    left: 60%;
+    width: 80%;
+    height: 2px;
+    background: #e0e0e0;
+    z-index: 1;
+}
+
+.wizard-step.completed:not(:last-child)::after {
+    background: var(--primary-color);
+}
+
+.step-number {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-weight: 600;
+    color: #757575;
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+.wizard-step.active .step-number {
+    background: var(--primary-color);
+    color: white;
+    box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+}
+
+.wizard-step.completed .step-number {
+    background: var(--primary-color);
+    color: white;
+}
+
+.wizard-step.completed .step-number::after {
+    content: '✓';
+    position: absolute;
+}
+
+.step-title {
+    font-size: 0.9rem;
+    color: #757575;
+    margin: 0;
+}
+
+.wizard-step.active .step-title {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.form-section {
+    display: none;
+    padding: 2rem;
+}
+
+.form-section.active {
+    display: block;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.form-section h4 {
+    margin-bottom: 2rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.form-floating {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.form-floating > label {
+    padding: 1rem;
+}
+
+.form-control {
+    border-radius: 10px;
+    border: 2px solid #eee;
+    padding: 1rem;
+    height: auto;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(33, 150, 243, 0.25);
+}
+
+.file-upload {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #e0e0e0;
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.file-upload:hover {
+    border-color: var(--primary-color);
+    background: rgba(33, 150, 243, 0.05);
+}
+
+.file-upload input[type="file"] {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.file-preview {
+    display: none;
+    margin-top: 1rem;
+}
+
+.file-preview img {
+    max-width: 150px;
+    border-radius: 5px;
+}
+
+.wizard-buttons {
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem;
+    border-top: 1px solid #eee;
+}
+
+.btn-wizard {
+    min-width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.btn-wizard:hover {
+    transform: translateY(-2px);
+}
+
+.form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.help-text {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 0.5rem;
+}
+
+.error-feedback {
+    color: var(--danger-color);
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+    display: none;
+}
+
+.form-control.is-invalid + .error-feedback {
+    display: block;
+}
+
+/* Progress Animation */
+.progress-bar {
+    height: 5px;
+    background: #e0e0e0;
+    border-radius: 5px;
+    margin: 2rem 0;
+    overflow: hidden;
+}
+
+.progress-value {
+    width: 0;
+    height: 100%;
+    background: var(--primary-color);
+    transition: width 0.3s ease;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card border-0 shadow-lg" data-aos="fade-up">
+                <div class="card-body p-0">
+                    <div class="form-wizard">
+                        <!-- Wizard Steps -->
+                        <div class="wizard-steps">
+                            <div class="wizard-step active" data-step="1">
+                                <div class="step-number">1</div>
+                                <p class="step-title">Personal Details</p>
+                            </div>
+                            <div class="wizard-step" data-step="2">
+                                <div class="step-number">2</div>
+                                <p class="step-title">Review & Submit</p>
+                            </div>
+                        </div>
+
+                        <form method="post" enctype="multipart/form-data" id="citizenshipForm" class="needs-validation" novalidate>
+                            {% csrf_token %}
+                            
+                            <!-- Step 1: Personal Details -->
+                            <div class="form-section active" data-step="1">
+                                <h4 class="text-center mb-4">Personal Information</h4>
+                                
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="full_name" name="full_name" placeholder="Full Name" required>
+                                            <label for="full_name">Full Name</label>
+                                            <div class="invalid-feedback">
+                                                Please enter your full name
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <select class="form-select" id="sex" name="sex" required>
+                                                <option value="">Select Gender</option>
+                                                <option value="male">Male</option>
+                                                <option value="female">Female</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                            <label for="sex">Gender</label>
+                                            <div class="invalid-feedback">
+                                                Please select your gender
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Date of Birth -->
+                                    <div class="col-md-4">
+                                        <div class="form-floating">
+                                            <input type="number" class="form-control" id="birth_year" name="birth_year" placeholder="Year" required min="1900" max="2024">
+                                            <label for="birth_year">Birth Year</label>
+                                            <div class="invalid-feedback">
+                                                Please enter a valid birth year
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-4">
+                                        <div class="form-floating">
+                                            <select class="form-select" id="birth_month" name="birth_month" required>
+                                                <option value="">Select Month</option>
+                                                <option value="JAN">January</option>
+                                                <option value="FEB">February</option>
+                                                <option value="MAR">March</option>
+                                                <option value="APR">April</option>
+                                                <option value="MAY">May</option>
+                                                <option value="JUN">June</option>
+                                                <option value="JUL">July</option>
+                                                <option value="AUG">August</option>
+                                                <option value="SEP">September</option>
+                                                <option value="OCT">October</option>
+                                                <option value="NOV">November</option>
+                                                <option value="DEC">December</option>
+                                            </select>
+                                            <label for="birth_month">Birth Month</label>
+                                            <div class="invalid-feedback">
+                                                Please select your birth month
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-4">
+                                        <div class="form-floating">
+                                            <input type="number" class="form-control" id="birth_day" name="birth_day" placeholder="Day" required min="1" max="31">
+                                            <label for="birth_day">Birth Day</label>
+                                            <div class="invalid-feedback">
+                                                Please enter a valid birth day
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 2: Review & Submit -->
+                            <div class="form-section" data-step="2">
+                                <h4 class="text-center mb-4">Review Your Information</h4>
+                                <div class="review-data">
+                                    <!-- Will be populated by JavaScript -->
+                                </div>
+                            </div>
+
+                            <!-- Form Navigation -->
+                            <div class="wizard-buttons">
+                                <button type="button" class="btn btn-outline-primary btn-wizard prev-step" style="display: none;">
+                                    <i class="fas fa-arrow-left me-2"></i>Previous
+                                </button>
+                                <button type="button" class="btn btn-primary btn-wizard next-step">
+                                    Next<i class="fas fa-arrow-right ms-2"></i>
+                                </button>
+                                <button type="submit" class="btn btn-success btn-wizard submit-form" style="display: none;">
+                                    <i class="fas fa-check me-2"></i>Submit Application
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('citizenshipForm');
+    const sections = form.querySelectorAll('.form-section');
+    const steps = document.querySelectorAll('.wizard-step');
+    const nextBtn = form.querySelector('.next-step');
+    const prevBtn = form.querySelector('.prev-step');
+    const submitBtn = form.querySelector('.submit-form');
+    let currentStep = 1;
+
+    // Handle next button click
+    nextBtn.addEventListener('click', function() {
+        const currentSection = form.querySelector(`.form-section[data-step="${currentStep}"]`);
+        const inputs = currentSection.querySelectorAll('input, select');
+        let isValid = true;
+
+        // Validate current section
+        inputs.forEach(input => {
+            if (!input.checkValidity()) {
+                isValid = false;
+                input.classList.add('is-invalid');
+            } else {
+                input.classList.remove('is-invalid');
+            }
+        });
+
+        if (!isValid) {
+            Toastify({
+                text: "Please fill in all required fields correctly",
+                duration: 3000,
+                gravity: "top",
+                position: "right",
+                backgroundColor: "#F44336",
+            }).showToast();
+            return;
+        }
+
+        // Move to next step
+        currentStep++;
+        updateFormState();
+        populateReviewData();
+    });
+
+    // Handle previous button click
+    prevBtn.addEventListener('click', function() {
+        currentStep--;
+        updateFormState();
+    });
+
+    // Update form state based on current step
+    function updateFormState() {
+        sections.forEach(section => {
+            section.classList.remove('active');
+            if (section.dataset.step == currentStep) {
+                section.classList.add('active');
+            }
+        });
+
+        steps.forEach(step => {
+            step.classList.remove('active', 'completed');
+            if (step.dataset.step < currentStep) {
+                step.classList.add('completed');
+            } else if (step.dataset.step == currentStep) {
+                step.classList.add('active');
+            }
+        });
+
+        // Show/hide navigation buttons
+        prevBtn.style.display = currentStep > 1 ? 'block' : 'none';
+        nextBtn.style.display = currentStep < 2 ? 'block' : 'none';
+        submitBtn.style.display = currentStep === 2 ? 'block' : 'none';
+    }
+
+    // Populate review data
+    function populateReviewData() {
+        if (currentStep === 2) {
+            const reviewData = document.querySelector('.review-data');
+            const formData = new FormData(form);
+            let html = '<div class="table-responsive"><table class="table">';
+            
+            formData.forEach((value, key) => {
+                if (key !== 'csrfmiddlewaretoken') {
+                    html += `
+                        <tr>
+                            <th>${key.replace('_', ' ').toUpperCase()}</th>
+                            <td>${value}</td>
+                        </tr>
+                    `;
+                }
+            });
+            
+            html += '</table></div>';
+            reviewData.innerHTML = html;
+        }
+    }
+
+    // Handle form submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        
+        // Show loading state
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Submitting...';
+
+        fetch(window.location.href, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': formData.get('csrfmiddlewaretoken'),
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                Toastify({
+                    text: data.message,
+                    duration: 3000,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: "#4CAF50",
+                }).showToast();
+                
+                // Redirect to dashboard after a short delay
+                setTimeout(() => {
+                    window.location.href = '/dashboard/';
+                }, 2000);
+            } else {
+                // Handle validation errors
+                Toastify({
+                    text: data.message,
+                    duration: 3000,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: "#F44336",
+                }).showToast();
+
+                // Display field-specific errors
+                if (data.errors) {
+                    Object.keys(data.errors).forEach(field => {
+                        const input = form.querySelector(`[name="${field}"]`);
+                        if (input) {
+                            input.classList.add('is-invalid');
+                            const feedback = input.parentElement.querySelector('.invalid-feedback');
+                            if (feedback) {
+                                feedback.textContent = data.errors[field][0];
+                            }
+                        }
+                    });
+                }
+                
+                // Reset submit button
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-check me-2"></i>Submit Application';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Toastify({
+                text: "An error occurred. Please try again.",
+                duration: 3000,
+                gravity: "top",
+                position: "right",
+                backgroundColor: "#F44336",
+            }).showToast();
+            
+            // Reset submit button
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="fas fa-check me-2"></i>Submit Application';
+        });
+    });
+});
+</script>
+{% endblock %} 

@@ -1,0 +1,139 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Login - D-Ask{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg" data-aos="zoom-in">
+                <div class="row g-0">
+                    <div class="col-md-6 bg-primary" style="background: linear-gradient(45deg, #1976D2, #64B5F6);">
+                        <div class="d-flex align-items-center justify-content-center h-100 p-5">
+                            <div class="text-center text-white">
+                                <i class="fas fa-user-shield fa-4x mb-4"></i>
+                                <h2 class="fw-bold mb-4">Welcome Back!</h2>
+                                <p class="mb-4">Access your digital document services dashboard and manage your applications with ease.</p>
+                                <a href="{% url 'register' %}" class="btn btn-outline-light btn-lg ripple-surface">
+                                    <i class="fas fa-user-plus me-2"></i>Create Account
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body p-5">
+                            <h3 class="fw-bold mb-4 text-center">Sign In to Your Account</h3>
+                            
+                            {% if form.errors %}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <i class="fas fa-exclamation-circle me-2"></i>Invalid username or password
+                                <button type="button" class="btn-close" data-mdb-dismiss="alert"></button>
+                            </div>
+                            {% endif %}
+
+                            <form method="post" class="login-form">
+                                {% csrf_token %}
+                                <div class="form-outline mb-4">
+                                    <input type="text" name="username" class="form-control form-control-lg" required id="id_username" />
+                                    <label class="form-label" for="id_username">Username</label>
+                                </div>
+                                
+                                <div class="form-outline mb-4">
+                                    <input type="password" name="password" class="form-control form-control-lg" required id="id_password" />
+                                    <label class="form-label" for="id_password">Password</label>
+                                </div>
+
+                                <div class="form-check mb-4">
+                                    <input class="form-check-input" type="checkbox" id="rememberMe" />
+                                    <label class="form-check-label" for="rememberMe">Remember me</label>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary btn-lg btn-block w-100 mb-4 ripple-surface">
+                                    <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                                </button>
+
+                                <div class="text-center">
+                                    <p class="mb-2">Forgot your password? <a href="#" class="text-primary">Reset it here</a></p>
+                                    <p class="mb-0">Don't have an account? <a href="{% url 'register' %}" class="text-primary">Register now</a></p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.login-form .form-outline {
+    position: relative;
+    background: #f8f9fa;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.login-form .form-outline:focus-within {
+    background: #fff;
+    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.25);
+}
+
+.login-form .form-control {
+    border: none;
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    font-size: 1rem;
+    background: transparent;
+}
+
+.login-form .form-label {
+    padding-left: 1rem;
+}
+
+.form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary {
+    text-transform: none;
+    font-weight: 600;
+    padding: 1rem;
+}
+
+@media (max-width: 768px) {
+    .card-body {
+        padding: 2rem !important;
+    }
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize all form-outline elements
+    document.querySelectorAll('.form-outline').forEach((formOutline) => {
+        new mdb.Input(formOutline).init();
+    });
+
+    // Add floating label animation
+    const inputs = document.querySelectorAll('.form-outline input');
+    inputs.forEach(input => {
+        if (input.value) {
+            input.parentElement.classList.add('active');
+        }
+        input.addEventListener('focus', () => {
+            input.parentElement.classList.add('active');
+        });
+        input.addEventListener('blur', () => {
+            if (!input.value) {
+                input.parentElement.classList.remove('active');
+            }
+        });
+    });
+});
+</script>
+{% endblock %} 
