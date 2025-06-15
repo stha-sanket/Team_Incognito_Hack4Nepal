@@ -1,0 +1,143 @@
+{% extends 'uploader/base.html' %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="glass-card rounded-xl p-8 mb-8 shadow-2xl bg-gray-900/30 backdrop-blur-lg border border-gray-800/50">
+        <h1 class="text-4xl font-bold mb-8 text-gradient bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+            RPA Script Management
+        </h1>
+        
+        <!-- Upload Form -->
+        <div class="mb-12 transform hover:scale-[1.01] transition-transform duration-300">
+            <div class="flex items-center mb-6">
+                <i class="fas fa-upload text-blue-400 mr-3 text-xl"></i>
+                <h2 class="text-2xl font-semibold text-blue-400">Upload RPA Script</h2>
+            </div>
+            <form method="post" enctype="multipart/form-data" class="space-y-6">
+                {% csrf_token %}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="flex flex-col space-y-2">
+                        <label for="name" class="text-sm font-medium text-gray-300 bg-[#1E293B] p-2 rounded-lg">
+                            <i class="fas fa-tag mr-2"></i>Script Name
+                        </label>
+                        <input type="text" name="name" id="name"
+                            class="bg-[#1E293B] rounded-lg p-3 text-gray-300 border border-gray-700/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-300"
+                            placeholder="Enter a name for your script">
+                    </div>
+                    <div class="flex flex-col space-y-2">
+                        <label for="script_file" class="text-sm font-medium text-gray-300 bg-[#1E293B] p-2 rounded-lg">
+                            <i class="fas fa-file-code mr-2"></i>Python Script File <span class="text-red-500">*</span>
+                        </label>
+                        <input type="file" name="script_file" id="script_file" accept=".py"
+                            class="block w-full bg-[#1E293B] text-gray-300 rounded-lg border border-gray-700/50 cursor-pointer focus:outline-none file:mr-4 file:py-2 file:px-4 file:border-0 file:bg-[#2D3B4F] hover:file:bg-[#374357] file:text-gray-300 transition-all duration-300">
+                    </div>
+                </div>
+                <div class="flex flex-col space-y-2">
+                    <label for="data_file" class="text-sm font-medium text-gray-300 bg-[#1E293B] p-2 rounded-lg">
+                        <i class="fas fa-database mr-2"></i>Data File (Optional)
+                    </label>
+                    <input type="file" name="data_file" id="data_file" accept=".xlsx,.csv,.json,.pdf"
+                        class="block w-full bg-[#1E293B] text-gray-300 rounded-lg border border-gray-700/50 cursor-pointer focus:outline-none file:mr-4 file:py-2 file:px-4 file:border-0 file:bg-[#2D3B4F] hover:file:bg-[#374357] file:text-gray-300 transition-all duration-300">
+                    <p class="text-sm text-gray-400 mt-1 bg-[#1E293B] p-2 rounded-lg">
+                        <i class="fas fa-info-circle mr-1"></i>
+                        Supported formats: Excel, CSV, JSON, or PDF
+                    </p>
+                </div>
+                <div class="flex flex-col space-y-2">
+                    <label for="description" class="text-sm font-medium text-gray-300 bg-[#1E293B] p-2 rounded-lg">
+                        <i class="fas fa-align-left mr-2"></i>Description
+                    </label>
+                    <textarea name="description" id="description" rows="3"
+                        class="bg-[#1E293B] rounded-lg p-3 text-gray-300 border border-gray-700/50 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-300"
+                        placeholder="Enter a description for your RPA script"></textarea>
+                </div>
+                <button type="submit" name="upload"
+                    class="group relative bg-gradient-to-r from-blue-600 to-purple-600 text-gray-200 px-6 py-3 rounded-lg hover:from-blue-500 hover:to-purple-500 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50">
+                    <i class="fas fa-cloud-upload-alt mr-2"></i>
+                    Upload Script
+                    <div class="absolute inset-0 bg-black/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </button>
+            </form>
+        </div>
+
+        <!-- Scripts List -->
+        <div>
+            <div class="flex items-center mb-6">
+                <i class="fas fa-list-alt text-blue-400 mr-3 text-xl"></i>
+                <h2 class="text-2xl font-semibold text-blue-400">Available Scripts</h2>
+            </div>
+            <div class="space-y-4">
+                {% if scripts %}
+                    {% for script in scripts %}
+                    <div class="bg-gray-800/30 backdrop-blur-sm rounded-xl p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 transform hover:scale-[1.01] transition-all duration-300 border border-gray-700/50 hover:border-purple-500/20">
+                        <div class="flex-1">
+                            <div class="flex items-center mb-2">
+                                <i class="fas fa-robot text-purple-400 mr-2"></i>
+                                <h3 class="text-lg font-medium text-gray-200">{{ script.name }}</h3>
+                            </div>
+                            <p class="text-gray-400 mb-2">{{ script.description }}</p>
+                            <div class="flex flex-wrap gap-3">
+                                {% if script.data_file %}
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-900/30 text-blue-400 border border-blue-800/50">
+                                    <i class="fas fa-file-alt mr-1"></i>
+                                    {{ script.data_file.name }}
+                                </span>
+                                {% endif %}
+                                {% if script.last_run %}
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-900/30 text-green-400 border border-green-800/50">
+                                    <i class="fas fa-clock mr-1"></i>
+                                    Last run: {{ script.last_run }}
+                                </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="flex gap-3 w-full md:w-auto">
+                            <form method="post" class="flex-1 md:flex-none">
+                                {% csrf_token %}
+                                <input type="hidden" name="script_id" value="{{ script.id }}">
+                                <button type="submit" name="run"
+                                    class="w-full md:w-auto group relative bg-gradient-to-r from-green-600 to-emerald-600 text-gray-200 px-6 py-2.5 rounded-lg hover:from-green-500 hover:to-emerald-500 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-500/50">
+                                    <i class="fas fa-play mr-2"></i>
+                                    Run
+                                    <div class="absolute inset-0 bg-black/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                </button>
+                            </form>
+                            <form method="post" class="flex-1 md:flex-none">
+                                {% csrf_token %}
+                                <input type="hidden" name="script_id" value="{{ script.id }}">
+                                <button type="submit" name="delete"
+                                    class="w-full md:w-auto group relative bg-gradient-to-r from-red-800 to-rose-800 text-gray-200 px-6 py-2.5 rounded-lg hover:from-red-700 hover:to-rose-700 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-red-500/50">
+                                    <i class="fas fa-trash-alt mr-2"></i>
+                                    Delete
+                                    <div class="absolute inset-0 bg-black/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="text-center py-12 bg-gray-800/20 rounded-xl border-2 border-dashed border-gray-700/50">
+                        <i class="fas fa-robot text-gray-600 text-4xl mb-4"></i>
+                        <p class="text-gray-400">No scripts uploaded yet. Start by uploading your first RPA script!</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Messages -->
+        {% if messages %}
+        <div class="mt-6 space-y-4">
+            {% for message in messages %}
+            <div class="p-4 rounded-lg {% if message.tags == 'success' %}bg-green-900/30 border-green-800/50{% else %}bg-red-900/30 border-red-800/50{% endif %} text-gray-200 whitespace-pre-wrap backdrop-blur-sm border flex items-start">
+                <i class="{% if message.tags == 'success' %}fas fa-check-circle text-green-400{% else %}fas fa-exclamation-circle text-red-400{% endif %} mr-3 mt-1"></i>
+                <div class="flex-1">{{ message }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Add Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+{% endblock %} 
