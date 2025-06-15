@@ -104,3 +104,18 @@ Logs are stored in:
 - Task logs: `~/airflow/logs/[dag_id]/[task_id]/[execution_date]`
 - Scheduler logs: `~/airflow/logs/scheduler`
 - Webserver logs: `~/airflow/logs/webserver`
+
+## 👥 Contributors
+
+We thank the following individuals for their valuable contributions to this project:
+
+- [**Sanket Shrestha**](https://github.com/stha-sanket)
+- [**Dip Darpan Kandel**](https://github.com/dip051030)
+- [**Krrishpana Karmacharya**](https://github.com/krrishpana)
+- [**Aarif Shrestha**](https://github.com/Aarif-Shrestha)
+
+Your efforts are deeply appreciated! ❤️
+
+## 📞 Support
+
+For issues or questions, please contact the admin at `sanketshrestha09@gmail.com` or open an issue in the project repository.
