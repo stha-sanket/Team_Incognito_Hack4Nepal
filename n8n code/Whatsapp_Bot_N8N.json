@@ -7,7 +7,6 @@
         ],
         "options": {
           "messageStatusUpdates": [
-            "all",
             "delivered"
           ]
         }
@@ -23,7 +22,7 @@
       "webhookId": "d73ee0f2-2b17-4f3e-ab41-6c36a7d32930",
       "credentials": {
         "whatsAppTriggerApi": {
-          "id": "sPhrEkv3gUzgJhQF",
+          "id": "xWioLQNrdVGyUd3A",
           "name": "WhatsApp OAuth account"
         }
       }
@@ -31,9 +30,9 @@
     {
       "parameters": {
         "promptType": "define",
-        "text": "={{ $('WhatsApp Trigger').item.json.messages[0].text.body }} if this question is in system prompt then only answer else say \"I am not trained under this data\"",
+        "text": "={{ $('WhatsApp Trigger').item.json.messages[0].text.body }}",
         "options": {
-          "systemMessage": "=You are a helpful and informative chatbot specializing in providing information about Nepali citizenship and taxation. You will be provided with a text containing information about the Nepali Citizenship Card, different types of Citizenship in Nepal, application processes, rights and limitations, uses of the card and the Permanent Account Number (PAN).\n\n**Your Task:**\n\nUse the provided text to answer user questions accurately, comprehensively, and concisely. \n\n*   **Be specific:** Include relevant details from the text in your responses.\n*   **Cite the source:** Avoid making up information. Base your answer strictly on the provided document.\n*   **Follow instructions:** Pay close attention to the specific question asked.\n*   **Acknowledge limitations:** If the answer to a question is not directly found in the text, state that the information is not available in the document provided. Do not consult outside sources.\n*   **Explain acronyms**: When first using an acronym, define it (e.g., District Administration Office (DAO)).\n*   **Provide links to the status of websites**: If the provided resource directs to a website, search the website, and find the current URL.\n*   **Be conversational**: Provide an intro to your response with an assurance that you will be able to answer the prompt by using the document.\n\n**Example:**\n\n**User:** What is the Nepali Citizenship Card used for?\n\n**Assistant:** Based on the provided document, the Nepali citizenship card serves multiple purposes, including:\n\n*   Proof of Identity and Nationality\n*   Obtaining Government Services\n*   Banking and Financial Transactions\n*   Property Transactions\n*   Employment and Education\n*   Legal Proceedings\n*   Travel Documentation\n*   Marriage Registration\n*   Obtaining Other Official Documents\n*   Voter Registration and Election Participation\n\n**Now, answer the user's questions using only the information provided in the supplied text.**"
+          "systemMessage": "=You are a helpful and informative chatbot specializing in providing information about Nepali citizenship and taxation. \n\nyou will greet the user properly if asked and if the user is asking question related to system explain them properly \nYou will be provided with a text containing information about the Nepali Citizenship Card, different types of Citizenship in Nepal, application processes, rights and limitations, uses of the card and the Permanent Account Number (PAN).\n\n**Your Task:**\n\nUse the provided text to answer user questions accurately, comprehensively, and concisely. \n\n*   **Be specific:** Include relevant details from the text in your responses.\n*   **Cite the source:** Avoid making up information. Base your answer strictly on the provided document.\n*   **Follow instructions:** Pay close attention to the specific question asked.\n*   **Acknowledge limitations:** If the answer to a question is not directly found in the text, state that the information is not available in the document provided. Do not consult outside sources.\n*   **Explain acronyms**: When first using an acronym, define it (e.g., District Administration Office (DAO)).\n*   **Provide links to the status of websites**: If the provided resource directs to a website, search the website, and find the current URL.\n*   **Be conversational**: Provide an intro to your response with an assurance that you will be able to answer the prompt by using the document.\n\n**Example:**\n\n**User:** What is the Nepali Citizenship Card used for?\n\n**Assistant:** Based on the provided document, the Nepali citizenship card serves multiple purposes, including:\n\n*   Proof of Identity and Nationality\n*   Obtaining Government Services\n*   Banking and Financial Transactions\n*   Property Transactions\n*   Employment and Education\n*   Legal Proceedings\n*   Travel Documentation\n*   Marriage Registration\n*   Obtaining Other Official Documents\n*   Voter Registration and Election Participation\n\n**Now, answer the user's questions using only the information provided in the supplied text.**"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -91,7 +90,7 @@
       "type": "n8n-nodes-base.whatsApp",
       "typeVersion": 1,
       "position": [
-        1100,
+        1320,
         -200
       ],
       "id": "fc4d8770-19c1-4149-b435-cd17c4155345",
@@ -286,6 +285,81 @@
       ],
       "id": "fb2f3122-0cbf-4796-986c-f74f741e695d",
       "name": "image Agent"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.output }} remove the markdown format",
+        "options": {
+          "systemMessage": "=You are a emailing bot of Dask-Ai, your job is to send the user sanketshrestha09@gmail.com that user {{ $('WhatsApp Trigger').item.json.contacts[0].profile.name }}, {{ $('WhatsApp Trigger').item.json.messages[0].from }} has send their data now need the user need to review it also send the data in proper format {{ $json.output }}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        940,
+        -760
+      ],
+      "id": "b01ffc57-9b6c-4ed9-971e-be1072b8c1ce",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        940,
+        -480
+      ],
+      "id": "bd14e742-0526-4b77-8e03-532c52110b6d",
+      "name": "Google Gemini Chat Model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "pkavqGLBOPeog7S1",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('WhatsApp Business Cloud1').item.json.id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        1100,
+        -480
+      ],
+      "id": "acbc1db3-9363-49c4-ab50-2a558db867f3",
+      "name": "Simple Memory2"
+    },
+    {
+      "parameters": {
+        "sendTo": "sanketshrestha09@gmail.com",
+        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
+        "emailType": "text",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', `write me a proper email to sanketshrestha09@gmail.com saying about the user has send their data and needs to be verified \n\nbest regards,\nD-ASK Ai`, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        1200,
+        -540
+      ],
+      "id": "03017bdc-1cd8-4c0f-b690-03adf8dc4bb5",
+      "name": "Gmail",
+      "webhookId": "8bf5d956-4b01-4c90-91c2-a4c3f07ca134",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "nrO7xQBQ6w2gLHCv",
+          "name": "Gmail account"
+        }
+      }
     }
   ],
   "connections": {
@@ -331,6 +405,11 @@
             "index": 0
           }
         ]
+      ]
+    },
+    "WhatsApp Business Cloud": {
+      "main": [
+        []
       ]
     },
     "Edit Fields": {
@@ -413,12 +492,82 @@
             "node": "WhatsApp Business Cloud",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory2": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
           }
         ]
       ]
     }
   },
-  "pinData": {},
+  "pinData": {
+    "WhatsApp Trigger": [
+      {
+        "messaging_product": "whatsapp",
+        "metadata": {
+          "display_phone_number": "15556505036",
+          "phone_number_id": "615768378296299"
+        },
+        "contacts": [
+          {
+            "profile": {
+              "name": "sanketshrestha"
+            },
+            "wa_id": "9779803809103"
+          }
+        ],
+        "messages": [
+          {
+            "from": "9779803809103",
+            "id": "wamid.HBgNOTc3OTgwMzgwOTEwMxUCABIYIDAwRTkwNkM0NEQwNUI4MkM5QTJCOENDNzUwNzhGQzNGAA==",
+            "timestamp": "1749958619",
+            "type": "image",
+            "image": {
+              "mime_type": "image/jpeg",
+              "sha256": "onN9iLlSVX/CWLJoZD7/YtCdULOHeLQgGNp9hqXQPv0=",
+              "id": "696907439709252"
+            }
+          }
+        ],
+        "field": "messages"
+      }
+    ]
+  },
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "a0ac3c2909236d8edfb00338fb5e4c91c62ceda5d1fa7493a782cdbf04af27ed"
