@@ -134,10 +134,17 @@ Team_Incognito_Hack4Nepal/
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🤝 Contributing
+## 👥 Contributors
 
-Contributions, issues, and feature requests are welcome! Feel free to check [issues page](https://github.com/stha-sanket/Team_Incognito_Hack4Nepal/issues).
+We thank the following individuals for their valuable contributions to this project:
 
-## 📞 Contact
+- [**Sanket Shrestha**](https://github.com/stha-sanket)
+- [**Dip Darpan Kandel**](https://github.com/dip051030)
+- [**Krrishpana Karmacharya**](https://github.com/krrishpana)
+- [**Aarif Shrestha**](https://github.com/Aarif-Shrestha)
 
-For any queries or support, please reach out to the team members or create an issue in the repository.
+Your efforts are deeply appreciated! ❤️
+
+## 📞 Support
+
+For issues or questions, please contact the admin at `sanketshrestha09@gmail.com` or open an issue in the project repository.
