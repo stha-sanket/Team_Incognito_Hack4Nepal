@@ -16,7 +16,7 @@ This workflow automates WhatsApp message handling, document extraction, and chat
 
 ## 🏗️ Workflow Overview
 
-```mermaid
+```
 graph TD
     A[WhatsApp Trigger] --> B{Switch: Text or Image?}
     B -- Text --> C[Edit Fields]
