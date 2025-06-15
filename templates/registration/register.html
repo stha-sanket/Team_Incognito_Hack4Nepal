@@ -1,0 +1,269 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Register - D-Ask{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card border-0 shadow-lg" data-aos="zoom-in">
+                <div class="row g-0">
+                    <div class="col-md-5 bg-primary text-white" style="background: linear-gradient(45deg, #1976D2, #64B5F6);">
+                        <div class="d-flex align-items-center justify-content-center h-100 p-5">
+                            <div class="text-center">
+                                <i class="fas fa-user-plus fa-4x mb-4"></i>
+                                <h2 class="fw-bold mb-4">Join D-Ask Today</h2>
+                                <p class="mb-4">Create your account and get access to our digital document services. Fast, secure, and reliable.</p>
+                                <div class="features">
+                                    <div class="feature-item mb-3">
+                                        <i class="fas fa-check-circle me-2"></i>
+                                        <span>Easy document submission</span>
+                                    </div>
+                                    <div class="feature-item mb-3">
+                                        <i class="fas fa-check-circle me-2"></i>
+                                        <span>Track application status</span>
+                                    </div>
+                                    <div class="feature-item mb-3">
+                                        <i class="fas fa-check-circle me-2"></i>
+                                        <span>24/7 customer support</span>
+                                    </div>
+                                </div>
+                                <p class="mt-4">Already have an account?</p>
+                                <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg ripple-surface">
+                                    <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card-body p-5">
+                            <h3 class="fw-bold mb-4 text-center">Create Your Account</h3>
+                            
+                            {% if form.errors %}
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <i class="fas fa-exclamation-circle me-2"></i>Please correct the errors below
+                                <button type="button" class="btn-close" data-mdb-dismiss="alert"></button>
+                            </div>
+                            {% endif %}
+
+                            <form method="post" class="register-form">
+                                {% csrf_token %}
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="form-outline">
+                                            <input type="text" name="username" class="form-control form-control-lg" required id="id_username" />
+                                            <label class="form-label" for="id_username">Username</label>
+                                        </div>
+                                        {% if form.username.errors %}
+                                        <div class="text-danger small mt-1">{{ form.username.errors|join:", " }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-outline">
+                                            <input type="email" name="email" class="form-control form-control-lg" required id="id_email" />
+                                            <label class="form-label" for="id_email">Email</label>
+                                        </div>
+                                        {% if form.email.errors %}
+                                        <div class="text-danger small mt-1">{{ form.email.errors|join:", " }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-outline">
+                                            <input type="password" name="password1" class="form-control form-control-lg" required id="id_password1" />
+                                            <label class="form-label" for="id_password1">Password</label>
+                                        </div>
+                                        {% if form.password1.errors %}
+                                        <div class="text-danger small mt-1">{{ form.password1.errors|join:", " }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-outline">
+                                            <input type="password" name="password2" class="form-control form-control-lg" required id="id_password2" />
+                                            <label class="form-label" for="id_password2">Confirm Password</label>
+                                        </div>
+                                        {% if form.password2.errors %}
+                                        <div class="text-danger small mt-1">{{ form.password2.errors|join:", " }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-outline">
+                                            <input type="tel" name="phone" class="form-control form-control-lg" required id="id_phone" />
+                                            <label class="form-label" for="id_phone">Phone Number</label>
+                                        </div>
+                                        {% if form.phone.errors %}
+                                        <div class="text-danger small mt-1">{{ form.phone.errors|join:", " }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-outline">
+                                            <input type="text" name="address" class="form-control form-control-lg" required id="id_address" />
+                                            <label class="form-label" for="id_address">Address</label>
+                                        </div>
+                                        {% if form.address.errors %}
+                                        <div class="text-danger small mt-1">{{ form.address.errors|join:", " }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="form-check mt-4 mb-4">
+                                    <input class="form-check-input" type="checkbox" required id="terms" />
+                                    <label class="form-check-label" for="terms">
+                                        I agree to the <a href="#" class="text-primary">Terms of Service</a> and <a href="#" class="text-primary">Privacy Policy</a>
+                                    </label>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary btn-lg btn-block w-100 mb-4 ripple-surface">
+                                    <i class="fas fa-user-plus me-2"></i>Create Account
+                                </button>
+
+                                <div class="text-center text-muted">
+                                    <small>By creating an account, you agree to receive updates and special offers.</small>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.register-form .form-outline {
+    position: relative;
+    background: #f8f9fa;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.register-form .form-outline:focus-within {
+    background: #fff;
+    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.25);
+}
+
+.register-form .form-control {
+    border: none;
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    font-size: 1rem;
+    background: transparent;
+}
+
+.register-form .form-label {
+    padding-left: 1rem;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.feature-item i {
+    font-size: 1.2rem;
+}
+
+.form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary {
+    text-transform: none;
+    font-weight: 600;
+    padding: 1rem;
+}
+
+@media (max-width: 768px) {
+    .card-body {
+        padding: 2rem !important;
+    }
+}
+
+/* Password Strength Indicator */
+.password-strength {
+    height: 4px;
+    margin-top: 0.5rem;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.strength-weak {
+    background-color: var(--danger-color);
+    width: 33%;
+}
+
+.strength-medium {
+    background-color: var(--warning-color);
+    width: 66%;
+}
+
+.strength-strong {
+    background-color: var(--success-color);
+    width: 100%;
+}
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize all form-outline elements
+    document.querySelectorAll('.form-outline').forEach((formOutline) => {
+        new mdb.Input(formOutline).init();
+    });
+
+    // Add floating label animation
+    const inputs = document.querySelectorAll('.form-outline input');
+    inputs.forEach(input => {
+        if (input.value) {
+            input.parentElement.classList.add('active');
+        }
+        input.addEventListener('focus', () => {
+            input.parentElement.classList.add('active');
+        });
+        input.addEventListener('blur', () => {
+            if (!input.value) {
+                input.parentElement.classList.remove('active');
+            }
+        });
+    });
+
+    // Password strength indicator
+    const password = document.getElementById('id_password1');
+    if (password) {
+        password.addEventListener('input', function() {
+            const strength = checkPasswordStrength(this.value);
+            updatePasswordStrength(strength);
+        });
+    }
+});
+
+function checkPasswordStrength(password) {
+    let strength = 0;
+    if (password.length >= 8) strength++;
+    if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
+    if (password.match(/\d/) || password.match(/[^a-zA-Z\d]/)) strength++;
+    return strength;
+}
+
+function updatePasswordStrength(strength) {
+    const container = document.getElementById('id_password1').closest('.form-outline');
+    let indicator = container.querySelector('.password-strength');
+    
+    if (!indicator) {
+        indicator = document.createElement('div');
+        indicator.className = 'password-strength';
+        container.appendChild(indicator);
+    }
+
+    indicator.className = 'password-strength';
+    if (strength === 1) indicator.classList.add('strength-weak');
+    else if (strength === 2) indicator.classList.add('strength-medium');
+    else if (strength === 3) indicator.classList.add('strength-strong');
+}
+</script>
+{% endblock %} 
