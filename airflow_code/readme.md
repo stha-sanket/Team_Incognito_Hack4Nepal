@@ -1,5 +1,5 @@
 # Airflow Data Pipeline
-
+> olease insure that you have already cloned the parent repo and are setting up this repo
 This directory contains Apache Airflow DAGs and scripts for automated data ingestion and processing for our chatbot system.
 
 ## 🚀 Features
