@@ -1,0 +1,426 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "messages"
+        ],
+        "options": {
+          "messageStatusUpdates": [
+            "all",
+            "delivered"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [
+        -60,
+        60
+      ],
+      "id": "3215947d-2f76-4d95-8f6f-aaffbdafc2e9",
+      "name": "WhatsApp Trigger",
+      "webhookId": "d73ee0f2-2b17-4f3e-ab41-6c36a7d32930",
+      "credentials": {
+        "whatsAppTriggerApi": {
+          "id": "sPhrEkv3gUzgJhQF",
+          "name": "WhatsApp OAuth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $('WhatsApp Trigger').item.json.messages[0].text.body }} if this question is in system prompt then only answer else say \"I am not trained under this data\"",
+        "options": {
+          "systemMessage": "=You are a helpful and informative chatbot specializing in providing information about Nepali citizenship and taxation. You will be provided with a text containing information about the Nepali Citizenship Card, different types of Citizenship in Nepal, application processes, rights and limitations, uses of the card and the Permanent Account Number (PAN).\n\n**Your Task:**\n\nUse the provided text to answer user questions accurately, comprehensively, and concisely. \n\n*   **Be specific:** Include relevant details from the text in your responses.\n*   **Cite the source:** Avoid making up information. Base your answer strictly on the provided document.\n*   **Follow instructions:** Pay close attention to the specific question asked.\n*   **Acknowledge limitations:** If the answer to a question is not directly found in the text, state that the information is not available in the document provided. Do not consult outside sources.\n*   **Explain acronyms**: When first using an acronym, define it (e.g., District Administration Office (DAO)).\n*   **Provide links to the status of websites**: If the provided resource directs to a website, search the website, and find the current URL.\n*   **Be conversational**: Provide an intro to your response with an assurance that you will be able to answer the prompt by using the document.\n\n**Example:**\n\n**User:** What is the Nepali Citizenship Card used for?\n\n**Assistant:** Based on the provided document, the Nepali citizenship card serves multiple purposes, including:\n\n*   Proof of Identity and Nationality\n*   Obtaining Government Services\n*   Banking and Financial Transactions\n*   Property Transactions\n*   Employment and Education\n*   Legal Proceedings\n*   Travel Documentation\n*   Marriage Registration\n*   Obtaining Other Official Documents\n*   Voter Registration and Election Participation\n\n**Now, answer the user's questions using only the information provided in the supplied text.**"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        820,
+        260
+      ],
+      "id": "06085155-ca3e-4994-a682-5befcea80647",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        780,
+        420
+      ],
+      "id": "e542a8a4-f538-48cd-82b7-98cd4d416db8",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "pkavqGLBOPeog7S1",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('WhatsApp Trigger').item.json.messages[0].from }}",
+        "contextWindowLength": 20
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        940,
+        520
+      ],
+      "id": "c69c79cb-713b-4085-a75d-1244a08007ab",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "615768378296299",
+        "recipientPhoneNumber": "={{ $('WhatsApp Trigger').item.json.messages[0].from }}",
+        "textBody": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        -200
+      ],
+      "id": "fc4d8770-19c1-4149-b435-cd17c4155345",
+      "name": "WhatsApp Business Cloud",
+      "webhookId": "f7c2a29f-e725-4497-8f61-48199e0883da",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "NcNwKwf8Ou7mqwqA",
+          "name": "WhatsApp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bb8e45db-346b-41f1-92aa-79989c2d0506",
+              "name": "Text",
+              "value": "={{ $json.messages[0].text.body }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        600,
+        260
+      ],
+      "id": "02b06ddb-5134-48ec-bd66-8281706d0bee",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.messages[0].image }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "object",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "ecf6ef22-9bc6-464c-9d53-0792f7189324"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "eef788b8-101b-4e46-adac-0d6f1d6a5b76",
+                    "leftValue": "={{ $json.messages[0].text }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "object",
+                      "operation": "exists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        160,
+        60
+      ],
+      "id": "ba00fcde-b929-40b8-9a29-2cd4fc64d1f0",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "resource": "media",
+        "operation": "mediaUrlGet",
+        "mediaGetId": "={{ $json.messages[0].image.id }}"
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        140,
+        -200
+      ],
+      "id": "6119c61f-601a-44fb-8d71-d615a610946e",
+      "name": "WhatsApp Business Cloud1",
+      "webhookId": "f6be01bb-1241-4807-8670-819de9e46e11",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "NcNwKwf8Ou7mqwqA",
+          "name": "WhatsApp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        380,
+        -200
+      ],
+      "id": "b3eddcdc-00bb-4ede-bae8-f8780c4c8f5b",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "xT4sdKo1NcSQ1CLG",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        620,
+        20
+      ],
+      "id": "a1c69999-0b9d-441b-8f39-ea039d21a18f",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "pkavqGLBOPeog7S1",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('HTTP Request').item.binary.data }} ",
+        "contextWindowLength": 20
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        740,
+        0
+      ],
+      "id": "d7ebf349-aa81-44ba-a3fb-bd06d5018ff1",
+      "name": "Simple Memory1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "read the binary image and tell what the image about, extract all the data there if the image is not a goverment related it will response this is not the image i am trained on please give me images related to goverment",
+        "options": {
+          "systemMessage": "You are a helpful that deals with govermental documents of nepal like citizenship, PAN card, etc if the image is not a goverment related it will response this is not the image i am trained on please give me images related to goverment",
+          "passthroughBinaryImages": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        620,
+        -200
+      ],
+      "id": "fb2f3122-0cbf-4796-986c-f74f741e695d",
+      "name": "image Agent"
+    }
+  ],
+  "connections": {
+    "WhatsApp Trigger": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "WhatsApp Business Cloud",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "WhatsApp Business Cloud1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp Business Cloud1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "image Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "image Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory1": {
+      "ai_memory": [
+        [
+          {
+            "node": "image Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "image Agent": {
+      "main": [
+        [
+          {
+            "node": "WhatsApp Business Cloud",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a0ac3c2909236d8edfb00338fb5e4c91c62ceda5d1fa7493a782cdbf04af27ed"
+  }
+}
