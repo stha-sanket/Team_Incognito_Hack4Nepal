@@ -1,7 +1,6 @@
 # n8n WhatsApp Document Extraction & Chatbot Workflow
 
 This workflow automates WhatsApp message handling, document extraction, and chatbot responses using n8n, Google Gemini, and email notifications. It is designed for Nepali government document support (e.g., citizenship, PAN) and general chatbot queries.
-
 ---
 
 ## 🚀 Features
