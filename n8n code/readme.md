@@ -101,10 +101,16 @@ graph TD
 - **Automated Admin Alerts:**  
   Admin receives an email whenever a user submits a document
 
-## 👤 Contributors
+## 👥 Contributors
 
-- Sanket Shrestha (D-ASK Ai)
-- Team Incognito
+We thank the following individuals for their valuable contributions to this project:
+
+- [**Sanket Shrestha**](https://github.com/stha-sanket)
+- [**Dip Darpan Kandel**](https://github.com/dip051030)
+- [**Krrishpana Karmacharya**](https://github.com/krrishpana)
+- [**Aarif Shrestha**](https://github.com/Aarif-Shrestha)
+
+Your efforts are deeply appreciated! ❤️
 
 ## 📞 Support
 
